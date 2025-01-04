@@ -1,0 +1,25 @@
+/* app global css */
+::-webkit-scrollbar {
+  right: 2px;
+  border-radius: 9px;
+  background: rgb(13 71 161 / 20%);
+  overflow: visible;
+  height: 13px;
+  width: 11px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  border: 3px solid rgba(0, 0, 0, 0);
+  background-color: rgb(13 71 161 / 75%);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
