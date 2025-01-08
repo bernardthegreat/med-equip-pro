@@ -36,7 +36,7 @@
           icon="fa fa-user"
           color="primary"
           text-color="secondary"
-          label="TEST LABEL"
+          label="TEST USER"
         >
           <!-- :label="`${
             this.currentScreenProperty.lt.md
@@ -68,7 +68,7 @@
               </q-avatar>
 
               <div class="text-caption q-mt-sm text-uppercase">
-                TEST LABEL
+                TEST USER
                 <!-- {{ this.userLoginInfo.lastName }},
                 {{ this.userLoginInfo.firstName }} -->
               </div>
