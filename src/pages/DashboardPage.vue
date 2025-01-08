@@ -27,7 +27,8 @@
                 :key="data"
               >
                 <q-card
-                  class="custom-card text-center"
+                  class="custom-card text-center cursor-pointer"
+                  v-ripple
                   :style="`background-color: ${data.color}; color: ${data.textColor}`"
                 >
                   <q-card-section

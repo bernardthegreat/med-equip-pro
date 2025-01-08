@@ -55,6 +55,7 @@
               <q-popup-proxy transition-show="scale" transition-hide="scale">
                 <q-date
                   v-model="date"
+                  class="q-ma-md"
                   landscape
                   range
                   @update:model-value="updateLabel()"
