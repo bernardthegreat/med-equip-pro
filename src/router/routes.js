@@ -1,8 +1,58 @@
 const routes = [
   {
     path: "/",
+    component: () => import("layouts/AuthLayout.vue"),
+    children: [
+      {
+        name: "Auth",
+        path: "",
+        component: () => import("src/pages/AuthPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
     component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/IndexPage.vue") }],
+    children: [
+      {
+        name: "Dashboard",
+        path: "",
+        component: () => import("src/pages/DashboardPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "/equipments",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        name: "Equipments",
+        path: "",
+        component: () => import("src/pages/EquipmentsPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "/departments",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        name: "Departments",
+        path: "",
+        component: () => import("src/pages/DepartmentsPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "/users",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        name: "Users",
+        path: "",
+        component: () => import("src/pages/UsersPage.vue"),
+      },
+    ],
   },
 
   // Always leave this as last one,

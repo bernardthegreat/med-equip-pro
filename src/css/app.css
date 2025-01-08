@@ -2,7 +2,7 @@
 ::-webkit-scrollbar {
   right: 2px;
   border-radius: 9px;
-  background: rgb(13 71 161 / 20%);
+  background: rgb(250 250 250 / 20%);
   overflow: visible;
   height: 13px;
   width: 11px;
@@ -11,7 +11,7 @@
 ::-webkit-scrollbar-thumb {
   border-radius: 9999px;
   border: 3px solid rgba(0, 0, 0, 0);
-  background-color: rgb(13 71 161 / 75%);
+  background-color: rgb(0 184 255 / 75%);
   background-clip: padding-box;
 }
 
@@ -22,4 +22,8 @@
 }
 ::-webkit-scrollbar-corner {
   background-color: transparent;
+}
+
+.bg-overlay {
+  box-shadow: inset 2000px 0 0 0 rgba(84, 207, 255, 0.418);
 }

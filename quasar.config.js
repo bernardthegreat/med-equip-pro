@@ -51,7 +51,7 @@ module.exports = configure(function (ctx) {
         // DEV_HOST: " https://b84c-202-57-35-84.ngrok-free.app/dragonpay", //NGROK
         DEV_HOST: "https://localhost:3000/",
         PROJECT_NAME: "MedEquipPro",
-        PROJECT_SHORT_NAME: "MedEquipPro",
+        PROJECT_SHORT_NAME: "Med-Equip-Pro",
         PROJECT_VERSION: "v0.1",
         HTTP_REQ_TIMEOUT: 1200000,
         NGROKTESTING: false,
