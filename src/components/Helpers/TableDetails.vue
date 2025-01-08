@@ -43,7 +43,7 @@
             </template>
           </q-input>
         </span>
-        <span class="col-xl col-lg col-md-6 col-sm-12 col-xs-12">
+        <span class="col-xl-8 col-lg-8 col-md-6 col-sm-12 col-xs-12">
           <q-btn-group>
             <q-btn
               icon="event"
