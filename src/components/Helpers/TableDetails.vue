@@ -27,8 +27,8 @@
       </div>
     </template>
     <template v-slot:top-right>
-      <div class="row items-center q-col-gutter-x-sm">
-        <span>
+      <div class="q-mt-xs row items-center q-col-gutter-sm">
+        <span class="col-xl col-lg col-md-6 col-sm-12 col-xs-12">
           <q-input
             :label="`FILTER ${this.title}`"
             outlined
@@ -43,7 +43,7 @@
             </template>
           </q-input>
         </span>
-        <span class="col">
+        <span class="col-xl col-lg col-md-6 col-sm-12 col-xs-12">
           <q-btn-group>
             <q-btn
               icon="event"

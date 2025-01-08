@@ -3,7 +3,6 @@
     <q-drawer
       v-model="bools.leftDrawer"
       show-if-above
-      :breakpoint="100"
       :width="190"
       class="bg-primary"
       style="border-top: 1px solid #fafafa"
@@ -19,12 +18,7 @@
 
     <q-header class="bg-primary text-secondary">
       <q-toolbar class="q-px-sm">
-        <div
-          class="text-weight-bold row items-center"
-          :class="
-            this.currentScreenProperty.lt.md ? 'text-overline' : 'text-body1'
-          "
-        >
+        <div class="text-weight-bold row items-center text-body1">
           <span>
             <q-btn
               @click="this.bools.leftDrawer = !this.bools.leftDrawer"

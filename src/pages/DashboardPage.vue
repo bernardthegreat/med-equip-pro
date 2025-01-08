@@ -21,7 +21,11 @@
           </q-card-section> -->
           <q-card-section class="q-pa-sm">
             <div class="row q-col-gutter-x-sm">
-              <div class="col" v-for="data in this.dashboardData" :key="data">
+              <div
+                class="col-xl col-lg col-md-6 col-sm-12 col-xs-12"
+                v-for="data in this.dashboardData"
+                :key="data"
+              >
                 <q-card
                   class="custom-card text-center"
                   :style="`background-color: ${data.color}; color: ${data.textColor}`"
