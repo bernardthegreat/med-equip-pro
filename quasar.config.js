@@ -47,6 +47,7 @@ module.exports = configure(function (ctx) {
       env: {
         // API_HOST: "https://jsonplaceholder.typicode.com",
         API_HOST: "http://localhost:3000",
+        NGROK_HOST: "https://3325-202-57-35-84.ngrok-free.app",
         // DEV_HOST: "https://api.uerm.edu.ph/dragonpay", // AT HOME
         // DEV_HOST: " https://b84c-202-57-35-84.ngrok-free.app/dragonpay", //NGROK
         DEV_HOST: "http://localhost:3000",
@@ -54,7 +55,7 @@ module.exports = configure(function (ctx) {
         PROJECT_SHORT_NAME: "Med-Equip-Pro",
         PROJECT_VERSION: "v0.1",
         HTTP_REQ_TIMEOUT: 1200000,
-        NGROKTESTING: false,
+        NGROKTESTING: true,
       },
       // transpile: false,
       // publicPath: '/',
