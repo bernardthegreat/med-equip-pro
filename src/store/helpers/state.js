@@ -2,9 +2,9 @@ import { Screen } from "quasar";
 export default function () {
   return {
     apiHost: process.env.DEV
-      ? process.env.NGROKTESTING
-        ? process.env.NGROK_HOST
-        : process.env.DEV_HOST
+      ? process.env.DEV_HOST
+      : process.env.NGROKTESTING
+      ? process.env.NGROK_HOST
       : process.env.API_HOST,
     currentScreen: Screen.name,
     currentScreenProperty: Screen,
