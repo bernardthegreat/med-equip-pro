@@ -17,6 +17,9 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       currentScreenProperty: "helpers/currentScreenProperty",
+      departments: "departments/departments",
+      suppliers: "suppliers/suppliers",
+      equipments: "equipments/equipments",
       notification: "helpers/notification",
       logoffUser: "helpers/logoffUser",
     }),
@@ -26,6 +29,9 @@ export default defineComponent({
   },
   methods: {
     async initializeStore() {
+      await this.$store.dispatch("departments/getDepartments");
+      await this.$store.dispatch("suppliers/getSuppliers");
+      await this.$store.dispatch("equipments/getEquipments");
       // await this.$store.dispatch("helpers/setAppLoading", true);
       // await this.$store.dispatch("config/getProcessors");
       // await this.$store.dispatch("config/getBillers");

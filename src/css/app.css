@@ -46,3 +46,96 @@
 .bg-overlay {
   box-shadow: inset 2000px 0 0 0 rgba(84, 207, 255, 0.418);
 }
+
+.info-chips {
+  background: #b3e5fc;
+  color: #01579b;
+}
+
+.info-bg-light {
+  background: #b3e5fc;
+  color: #01579b;
+}
+
+.info-bg-dark {
+  background: #01579b;
+  color: #b3e5fc;
+}
+
+.printout-xs {
+  height: 83.1vh !important;
+}
+
+.printout-sm {
+  height: 83.1vh !important;
+}
+
+.printout-md {
+  height: 88.5vh !important;
+}
+
+.printout-lg {
+  height: 90vh !important;
+}
+
+.printout-xl {
+  height: 92.9vh !important;
+}
+
+.card-dialog-width {
+  max-width: 800px !important;
+}
+
+.primary-btn {
+  background-color: #007bff !important;
+  color: #fff !important;
+}
+
+.secondary-btn {
+  background-color: #6c757d !important;
+  color: #fff !important;
+}
+
+.bg-light {
+  background-color: #d1ecfc !important;
+  color: #0d47a1 !important;
+}
+
+.bg-dark {
+  background-color: #0d47a1 !important;
+  color: #d1ecfc !important;
+}
+
+.accent-text-dark,
+.q-field__label {
+  color: #0d47a1 !important;
+}
+
+.accent-text-light {
+  color: #d1ecfc !important;
+}
+
+.bg-preventive {
+  color: #fafafa;
+  background: #f2c037;
+}
+
+.bg-corrective {
+  color: #fafafa;
+  background: #ea5e13;
+}
+
+.bg-pending {
+  background-color: rgb(255, 224, 130);
+  color: rgb(191, 54, 12);
+}
+
+.bg-completed {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.bg-floating {
+  background-color: #546e7a;
+  color: #fafafa;
+}

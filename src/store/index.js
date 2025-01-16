@@ -4,6 +4,11 @@ import { createStore } from "vuex";
 // import example from './module-example'
 import helpers from "./helpers";
 import config from "./config";
+import equipments from "./equipments";
+import departments from "./departments";
+import suppliers from "./suppliers";
+import workOrders from "./work-orders";
+import users from "./users";
 /*
  * If not building with SSR mode, you can
  * directly export the Store instantiation;
@@ -18,7 +23,11 @@ export default store(function (/* { ssrContext } */) {
     modules: {
       // example
       helpers,
-      config,
+      equipments,
+      departments,
+      suppliers,
+      workOrders,
+      users,
     },
 
     // enable strict mode (adds overhead!)

@@ -57,12 +57,12 @@ export async function request(context, arg) {
     if (process.env.DEV) console.log("Response data: ", response.data);
 
     if (handler.constructor.name === "AsyncFunction") {
-      await handler(response.data);
+      await handler(response.data.data);
     } else {
-      handler(response.data);
+      handler(response.data.data);
     }
     if (detailed) {
-      return response.data;
+      return response.data.data;
     }
   } catch (err) {
     if (process.env.DEV) console.log(err);

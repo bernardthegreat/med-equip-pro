@@ -46,10 +46,10 @@ module.exports = configure(function (ctx) {
       vueRouterMode: "hash", // available values: 'hash', 'history'
       env: {
         // API_HOST: "https://jsonplaceholder.typicode.com",
-        API_HOST: "https://localhost:3000/",
+        API_HOST: "http://localhost:3000",
         // DEV_HOST: "https://api.uerm.edu.ph/dragonpay", // AT HOME
         // DEV_HOST: " https://b84c-202-57-35-84.ngrok-free.app/dragonpay", //NGROK
-        DEV_HOST: "https://localhost:3000/",
+        DEV_HOST: "http://localhost:3000",
         PROJECT_NAME: "MedEquipPro",
         PROJECT_SHORT_NAME: "Med-Equip-Pro",
         PROJECT_VERSION: "v0.1",

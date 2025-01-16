@@ -1,7 +1,11 @@
 import { Screen } from "quasar";
 export default function () {
   return {
-    apiHost: process.env.DEV ? process.env.DEV_HOST : process.env.API_HOST,
+    apiHost: process.env.DEV
+      ? process.env.NGROKTESTING
+        ? process.env.NGROK_HOST
+        : process.env.DEV_HOST
+      : process.env.API_HOST,
     currentScreen: Screen.name,
     currentScreenProperty: Screen,
     darkMode: null,
@@ -41,20 +45,31 @@ export default function () {
         name: "dashboard",
         title: "Dashboard",
         icon: "fa fa-screwdriver-wrench",
+        roles: ["user", "admin"],
       },
-      {
-        link: "/equipments",
-        altName: "equipments",
-        name: "equipments",
-        title: "Equipments",
-        icon: "fa fa-chalkboard-user",
-      },
+      // {
+      //   link: "/equipments",
+      //   altName: "equipments",
+      //   name: "equipments",
+      //   title: "Equipments",
+      //   icon: "fa fa-chalkboard-user",
+      //   roles: ["user", "admin"],
+      // },
       {
         link: "/departments",
         altName: "departments",
         name: "departments",
         title: "Departments",
         icon: "fa fa-hospital-user",
+        roles: ["admin"],
+      },
+      {
+        link: "/suppliers",
+        altName: "suppliers",
+        name: "suppliers",
+        title: "Suppliers",
+        icon: "fa fa-boxes-packing",
+        roles: ["admin"],
       },
       {
         link: "/users",
@@ -62,6 +77,7 @@ export default function () {
         name: "users",
         title: "Users",
         icon: "fa fa-users",
+        roles: ["admin"],
       },
       // {
       //   link: "/reports",

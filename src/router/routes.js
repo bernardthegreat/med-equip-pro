@@ -44,6 +44,17 @@ const routes = [
     ],
   },
   {
+    path: "/suppliers",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        name: "Suppliers",
+        path: "",
+        component: () => import("src/pages/SuppliersPage.vue"),
+      },
+    ],
+  },
+  {
     path: "/users",
     component: () => import("layouts/MainLayout.vue"),
     children: [
