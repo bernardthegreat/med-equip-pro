@@ -991,7 +991,7 @@ export default defineComponent({
               startWorkAt: this.infoDetails.startWorkAt,
               assessAt: this.infoDetails.assessAt,
               equipmentCode: this.infoDetails.code,
-              type: "preventive",
+              type: this.infoDetails.workOrderType,
               taskList: this.infoDetails.taskList.map((mapTaskList) => {
                 return {
                   taskId: mapTaskList.taskId,
