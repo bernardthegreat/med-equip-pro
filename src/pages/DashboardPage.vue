@@ -152,21 +152,21 @@
         <q-layout view="hHh LpR fFf">
           <q-header class="q-pa-sm bg-light">
             <div class="row items-center justify-between">
-              <!-- <q-btn
+              <q-btn
                 @click="this.bools.leftDrawer = !this.bools.leftDrawer"
                 icon="fa fa-bars"
                 flat
                 round
                 class="q-ma-sm"
-              ></q-btn> -->
+              ></q-btn>
               <div class="col row items-start justify-start text-uppercase">
                 <div class="col column">
-                  <span>
+                  <!-- <span>
                     WORK ORDER #:
                     <span class="text-weight-bold">{{
                       this.infoDetails.workOrderCode
                     }}</span>
-                  </span>
+                  </span> -->
                   <span>
                     SERIAL NUMBER:
                     <span class="text-weight-bold">{{
@@ -224,18 +224,119 @@
             </div>
           </q-header>
 
-          <!-- <q-drawer
+          <q-drawer
             v-model="bools.leftDrawer"
             show-if-above
-            :width="220"
+            :width="350"
             class="bg-light"
             style="
               border-top: 1px solid #fafafa;
               border-bottom: 1px solid #fafafa;
             "
           >
-            <div class="q-pa-md">HISTORY</div>
-          </q-drawer> -->
+            <div class="q-pa-md">
+              <q-tabs
+                v-model="historyTab"
+                dense
+                class="bg-light text-caption bordered shadow-1 accent-text-dark"
+                active-bg-color="primary"
+                active-class="bg-dark"
+                indicator-color="primary"
+                align="justify"
+                narrow-indicator
+                outside-arrows
+                mobile-arrows
+                inline-label
+              >
+                <q-tab
+                  name="preventive"
+                  label="PREVENTIVE"
+                  style="font-size: 10px !important"
+                >
+                  <q-badge color="red" style="right: -45px" floating>
+                    {{ this.historyDetails.preventive.length }}
+                  </q-badge>
+                </q-tab>
+                <q-tab
+                  name="corrective"
+                  label="CORRECTIVE"
+                  style="font-size: 10px !important"
+                >
+                  <q-badge color="red" style="right: -45px" floating>
+                    {{ this.historyDetails.corrective.length }}
+                  </q-badge>
+                </q-tab>
+              </q-tabs>
+              <q-separator color="bg-dark"></q-separator>
+
+              <q-tab-panels v-model="historyTab" animated>
+                <q-tab-panel name="preventive" class="q-pa-none">
+                  <q-card>
+                    <q-card-section
+                      class="scroll"
+                      style="max-height: 72vh !important"
+                    >
+                      <q-list
+                        separator
+                        v-if="this.historyDetails.preventive.length > 0"
+                      >
+                        <q-item
+                          v-for="preventive in this.historyDetails.preventive"
+                          :key="preventive"
+                          tag="label"
+                          v-ripple
+                          @click="openPrintoutDialog(preventive)"
+                        >
+                          <q-item-section avatar>
+                            <q-icon color="primary" name="fa fa-user-edit" />
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label>{{
+                              preventive.formattedWorkOrderUpdateDateTime
+                            }}</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+
+                      <div v-else class="text-center">NO HISTORY FOUND</div>
+                    </q-card-section>
+                  </q-card>
+                </q-tab-panel>
+                <q-tab-panel name="corrective" class="q-pa-none">
+                  <q-card>
+                    <q-card-section
+                      class="scroll"
+                      style="max-height: 72vh !important"
+                    >
+                      <q-list
+                        separator
+                        v-if="this.historyDetails.corrective.length > 0"
+                      >
+                        <q-item
+                          v-for="corrective in this.historyDetails.corrective"
+                          :key="corrective"
+                          tag="label"
+                          v-ripple
+                          @click="openPrintoutDialog(corrective)"
+                        >
+                          <q-item-section avatar>
+                            <q-icon color="primary" name="fa fa-user-edit" />
+                          </q-item-section>
+                          <q-item-section>
+                            <q-item-label>{{
+                              corrective.formattedWorkOrderUpdateDateTime
+                            }}</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+
+                      <div v-else class="text-center">NO HISTORY FOUND</div>
+                    </q-card-section>
+                  </q-card>
+                </q-tab-panel>
+              </q-tab-panels>
+            </div>
+          </q-drawer>
 
           <q-form
             autofocus
@@ -453,7 +554,7 @@
                       label="PRINT"
                       color="primary"
                       icon="fa fa-print"
-                      @click="bools.printoutDialog = true"
+                      @click="openPrintoutDialog(this.mainInfoDetails)"
                       size="sm"
                     ></q-btn>
                     <q-btn
@@ -487,7 +588,7 @@
 
     <q-dialog maximized v-model="bools.printoutDialog">
       <work-order-printout
-        :infoDetails="this.mainInfoDetails"
+        :infoDetails="this.printDetails"
       ></work-order-printout>
     </q-dialog>
 
@@ -809,10 +910,16 @@ export default defineComponent({
         assessDialog: false,
       },
       initTab: "workOrders",
+      historyTab: "preventive",
       dialogAction: "add",
       mainInfoDetails: {},
       infoDetails: {},
       repairDetails: {},
+      historyDetails: {
+        preventive: [],
+        corrective: [],
+      },
+      printDetails: {},
       rows: [],
       dashboardData: [],
       ratingColors: [
@@ -1058,6 +1165,28 @@ export default defineComponent({
       }
 
       this.mainInfoDetails = JSON.parse(JSON.stringify(this.infoDetails));
+
+      const equipmentHistory = await this.$store.dispatch(
+        "workOrders/getEquipmentHistory",
+        {
+          equipmentCode: this.infoDetails.code,
+          month: this.$refs.workOrderTable.monthYear,
+        }
+      );
+
+      if (equipmentHistory.length > 0) {
+        this.historyDetails.preventive = equipmentHistory.filter(
+          (filterPreventive) => filterPreventive.workOrderType === "PREVENTIVE"
+        );
+        this.historyDetails.corrective = equipmentHistory.filter(
+          (filterCorrective) => filterCorrective.workOrderType === "COLLECTIVE"
+        );
+      }
+    },
+
+    async openPrintoutDialog(details) {
+      this.bools.printoutDialog = true;
+      this.printDetails = details;
     },
 
     async validateAssessment(type) {

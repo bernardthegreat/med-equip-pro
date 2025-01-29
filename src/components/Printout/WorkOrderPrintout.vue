@@ -152,7 +152,9 @@
                 <tbody>
                   <tr v-for="(task, i) in this.infoDetails.taskList" :key="i">
                     <td>{{ i + 1 }}</td>
-                    <td style="text-align: left">{{ task.description }}</td>
+                    <td style="text-align: left">
+                      {{ task.description ?? task.taskDescription }}
+                    </td>
                     <td>
                       {{ task.taskStatus ? "√" : "" }}
                     </td>

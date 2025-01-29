@@ -5,6 +5,11 @@
     :message="notification.message"
     :type="notification.type"
   ></NotifyMessage>
+
+  <PasswordChange
+    @closeUpdatePasswordDialog="bools.passwordChangeDialog = false"
+    v-if="bools.passwordChangeDialog"
+  ></PasswordChange>
 </template>
 
 <script>
@@ -13,9 +18,17 @@ import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
 import { Cookies } from "quasar";
 import NotifyMessage from "./components/Helpers/NotifyMessage.vue";
+import PasswordChange from "./components/Helpers/PasswordChange.vue";
 export default defineComponent({
   name: "App",
-  components: { NotifyMessage },
+  components: { NotifyMessage, PasswordChange },
+  data() {
+    return {
+      bools: {
+        passwordChangeDialog: false,
+      },
+    };
+  },
   watch: {
     // IMPORTANT: Do not make this watcher "immediate".
     "$router.currentRoute.value.name": {
@@ -56,7 +69,6 @@ export default defineComponent({
         type: "negative",
       };
       await this.$store.dispatch("helpers/setNotification", notifInitPayload);
-      // this.bools.loginLoading = false;
       setTimeout(async () => {
         const notifInitPayload = {
           displayNotify: false,
@@ -81,11 +93,23 @@ export default defineComponent({
       await this.initializeStore();
     },
     async initializeStore() {
+      if (Object.keys(this.userLoginInfo).length === 0) {
+        return;
+      }
+      this.checkInitialLogin();
+
       await this.$store.dispatch("departments/getDepartments");
       await this.$store.dispatch("suppliers/getSuppliers");
       await this.$store.dispatch("equipments/getEquipments");
       // await this.$store.dispatch("helpers/setAppLoading", true);
       // await this.$store.dispatch("helpers/setAppLoading", false);
+    },
+
+    async checkInitialLogin() {
+      this.bools.passwordChangeDialog = false;
+      if (this.userLoginInfo.initialLogin) {
+        this.bools.passwordChangeDialog = true;
+      }
     },
 
     async redirectUser() {

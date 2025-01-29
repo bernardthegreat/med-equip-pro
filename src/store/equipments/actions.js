@@ -44,8 +44,8 @@ export async function getEquipmentsDetails(context, query = {}) {
         if (data.length > 0) {
           utils.buildOptionsArray(data, "code", "code");
           for (const list of data) {
-            list.taskStatus = "";
-            list.taskRemarks = "";
+            list.taskStatus = null;
+            list.taskRemarks = null;
           }
         }
         // Response data can be modified here before setting it to the store

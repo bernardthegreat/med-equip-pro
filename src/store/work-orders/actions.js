@@ -64,6 +64,27 @@ export async function getWorkOrderDetails(context, query = {}) {
   );
 }
 
+export async function getEquipmentHistory(context, query = {}) {
+  const queryStr = await context.dispatch("helpers/queryToStr", query, {
+    root: true,
+  });
+  return await context.dispatch(
+    "helpers/request",
+    {
+      url: `${context.rootState.helpers.apiHost}/work-orders/equipment${queryStr}`,
+      method: "get",
+      detailed: true,
+      headers: {
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+      },
+      handler: async (data) => {
+        // Response data can be modified here before setting it to the store
+      },
+    },
+    { root: true }
+  );
+}
+
 export async function postWorkOrder(context, payload) {
   return await context.dispatch(
     "helpers/request",

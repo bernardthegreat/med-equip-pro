@@ -70,26 +70,28 @@ export async function request(context, arg) {
     if (detailed) {
       console.log(err.response);
       if (err.response !== undefined) {
-        if (err.response.data.error.tokenError !== undefined) {
-          context.dispatch("logoffUser", true);
-          let notifPayload = {
-            displayNotify: true,
-            message: utils.empty(err.response.data.error)
-              ? err.response.data.message
-              : err.response.data.error.message,
-            type: "negative",
-          };
-
-          context.commit("setNotification", notifPayload);
-          setTimeout(async () => {
-            const notifInitPayload = {
-              displayNotify: false,
-              message: "",
-              type: "",
+        if (err.response.data.error !== null) {
+          if (err.response.data.error.tokenError !== undefined) {
+            context.dispatch("logoffUser", true);
+            let notifPayload = {
+              displayNotify: true,
+              message: utils.empty(err.response.data.error)
+                ? err.response.data.message
+                : err.response.data.error.message,
+              type: "negative",
             };
-            context.commit("setNotification", notifInitPayload);
-          }, 1500);
-          return false;
+
+            context.commit("setNotification", notifPayload);
+            setTimeout(async () => {
+              const notifInitPayload = {
+                displayNotify: false,
+                message: "",
+                type: "",
+              };
+              context.commit("setNotification", notifInitPayload);
+            }, 1500);
+            return false;
+          }
         }
         let notifPayload = {
           displayNotify: true,
