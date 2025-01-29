@@ -3,7 +3,6 @@ import { createStore } from "vuex";
 
 // import example from './module-example'
 import helpers from "./helpers";
-import config from "./config";
 import equipments from "./equipments";
 import departments from "./departments";
 import suppliers from "./suppliers";

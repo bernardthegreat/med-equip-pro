@@ -47,7 +47,7 @@
               this.workOrders.length
             }}</q-badge>
           </q-tab>
-          <q-tab name="equipments" icon="fa fa-fax" label="EQUIPMENT">
+          <q-tab name="equipments" icon="fa fa-fax" label="EQUIPMENTS">
             <q-badge color="red" style="right: -45px" floating>{{
               this.equipments.length
             }}</q-badge>
@@ -152,21 +152,21 @@
         <q-layout view="hHh LpR fFf">
           <q-header class="q-pa-sm bg-light">
             <div class="row items-center justify-between">
-              <q-btn
+              <!-- <q-btn
                 @click="this.bools.leftDrawer = !this.bools.leftDrawer"
                 icon="fa fa-bars"
                 flat
                 round
                 class="q-ma-sm"
-              ></q-btn>
+              ></q-btn> -->
               <div class="col row items-start justify-start text-uppercase">
                 <div class="col column">
-                  <!-- <span>
+                  <span>
                     WORK ORDER #:
                     <span class="text-weight-bold">{{
                       this.infoDetails.workOrderCode
                     }}</span>
-                  </span> -->
+                  </span>
                   <span>
                     SERIAL NUMBER:
                     <span class="text-weight-bold">{{
@@ -378,7 +378,7 @@
                                   :label="
                                     task.taskStatus
                                       ? 'YES'
-                                      : task.taskStatus === ''
+                                      : task.taskStatus === null
                                       ? 'N/A'
                                       : 'NO'
                                   "
@@ -486,10 +486,12 @@
     </q-dialog>
 
     <q-dialog maximized v-model="bools.printoutDialog">
-      <work-order-printout></work-order-printout>
+      <work-order-printout
+        :infoDetails="this.mainInfoDetails"
+      ></work-order-printout>
     </q-dialog>
 
-    <q-dialog v-model="bools.assessDialog">
+    <q-dialog v-model="bools.assessDialog" @hide="this.closeDialog()">
       <q-card class="card-dialog-width">
         <q-card-section class="bg-light">
           <span v-if="this.infoDetails.finalStatus === 1"
@@ -636,6 +638,122 @@
                   </template>
                 </q-input>
               </div>
+              <div class="col-12" v-if="this.infoDetails.finalStatus === 2">
+                <q-input
+                  stack-label
+                  filled
+                  v-model="infoDetails.completedAt"
+                  label-slot
+                  dense
+                  hide-bottom-space
+                  square:rules="[(val) => !!val || 'Enter Assessment Date / Time']"
+                >
+                  <template v-slot:label>
+                    Work Done Date / Time
+                    <span class="text-weight-bold text-red"> *</span>
+                  </template>
+                  <template v-slot:prepend>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy
+                        cover
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date
+                          v-model="infoDetails.completedAt"
+                          mask="YYYY-MM-DD HH:mm"
+                        >
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              label="Close"
+                              color="primary"
+                              flat
+                            />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                  <template v-slot:append>
+                    <q-icon name="access_time" class="cursor-pointer">
+                      <q-popup-proxy
+                        cover
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-time
+                          v-model="infoDetails.assessAt"
+                          mask="YYYY-MM-DD HH:mm"
+                          format24h
+                        >
+                          <div class="row items-center justify-end">
+                            <q-btn
+                              v-close-popup
+                              label="Close"
+                              color="primary"
+                              flat
+                            />
+                          </div>
+                        </q-time>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+
+              <div class="col-12">
+                <q-select
+                  stack-label
+                  square
+                  filled
+                  v-model="infoDetails.workStatus"
+                  :options="this.workStatus"
+                  :rules="[(val) => !!val || 'Field is required']"
+                  emit-value
+                  map-options
+                  label-slot
+                  dense
+                  class="accent-text-dark"
+                  options-dense
+                  hide-bottom-space
+                >
+                  <template v-slot:label>
+                    Status
+                    <span class="text-weight-bold text-red"> *</span>
+                  </template>
+                </q-select>
+              </div>
+
+              <div
+                class="col-12 text-center"
+                v-if="this.infoDetails.finalStatus === 2"
+              >
+                Rating:
+                <q-rating
+                  v-model="this.infoDetails.rating"
+                  color="yellow"
+                  icon="star_border"
+                  icon-selected="star"
+                  size="3.5em"
+                >
+                  <template v-slot:tip-1>
+                    <q-tooltip>POOR</q-tooltip>
+                  </template>
+                  <template v-slot:tip-2>
+                    <q-tooltip>FAIR</q-tooltip>
+                  </template>
+                  <template v-slot:tip-3>
+                    <q-tooltip>GOOD</q-tooltip>
+                  </template>
+                  <template v-slot:tip-4>
+                    <q-tooltip>VERY GOOD</q-tooltip>
+                  </template>
+                  <template v-slot:tip-5>
+                    <q-tooltip>EXCELLENT</q-tooltip>
+                  </template>
+                </q-rating>
+              </div>
             </div>
           </q-card-section>
           <q-card-section align="right">
@@ -671,6 +789,7 @@ import TableDetailsWorkOrder from "src/components/Helpers/TableDetailsWorkOrder.
 import EquipmentForm from "src/components/EquipmentForm.vue";
 import WorkOrderPrintout from "src/components/Printout/WorkOrderPrintout.vue";
 import { date } from "quasar";
+import { initStores } from "src/store/helpers/actions";
 
 export default defineComponent({
   components: {
@@ -691,10 +810,18 @@ export default defineComponent({
       },
       initTab: "workOrders",
       dialogAction: "add",
+      mainInfoDetails: {},
       infoDetails: {},
       repairDetails: {},
       rows: [],
       dashboardData: [],
+      ratingColors: [
+        "light-green-3",
+        "light-green-6",
+        "green",
+        "green-9",
+        "green-10",
+      ],
     };
   },
   computed: {
@@ -709,6 +836,7 @@ export default defineComponent({
       equipmentsTypeOptions: "equipments/equipmentsTypeOptions",
       equipmentsTypeHashMap: "equipments/equipmentsTypeHashMap",
       workOrders: "workOrders/workOrders",
+      workStatus: "workOrders/workStatus",
     }),
   },
   mounted() {
@@ -830,12 +958,15 @@ export default defineComponent({
     openEditDialog(row) {
       this.dialogAction = "edit";
       this.bools.infoDialog = true;
+      this.mainInfoDetails = row;
       this.infoDetails = JSON.parse(JSON.stringify(row));
     },
     validationError(vm) {
       vm.$el.scrollIntoView();
     },
-
+    closeDialog() {
+      this.infoDetails = JSON.parse(JSON.stringify(this.mainInfoDetails));
+    },
     async repairEquipment() {
       this.$q
         .dialog({
@@ -908,6 +1039,7 @@ export default defineComponent({
         {
           workOrderCode: this.infoDetails.workOrderCode,
           equipmentCode: this.infoDetails.code,
+          month: this.$refs.workOrderTable.monthYear,
         }
       );
 
@@ -918,12 +1050,14 @@ export default defineComponent({
           );
 
           if (match) {
-            item.taskStatus = match.taskStatus === null ? "" : match.taskStatus;
+            item.taskStatus = match.taskStatus;
             item.taskRemarks = match.taskRemarks;
             item.taskId = match.taskId;
           }
         });
       }
+
+      this.mainInfoDetails = JSON.parse(JSON.stringify(this.infoDetails));
     },
 
     async validateAssessment(type) {
@@ -932,15 +1066,20 @@ export default defineComponent({
           return false;
         }
 
+        const newDate = Date.now();
+        const currentDate = date.formatDate(newDate, "YYYY-MM-DD HH:mm");
+
         this.bools.assessDialog = true;
         if (this.dialogAction !== "edit") {
-          const newDate = Date.now();
-          const currentDate = date.formatDate(newDate, "YYYY-MM-DD HH:mm");
           this.infoDetails.assessAt = currentDate;
           this.infoDetails.startWorkAt = currentDate;
         }
 
         this.infoDetails.finalStatus = type;
+
+        if (type === 2) {
+          this.infoDetails.completedAt = currentDate;
+        }
       });
     },
 
@@ -990,8 +1129,11 @@ export default defineComponent({
               scheduleAt: this.infoDetails.scheduleAt,
               startWorkAt: this.infoDetails.startWorkAt,
               assessAt: this.infoDetails.assessAt,
+              completedAt: this.infoDetails.completedAt,
               equipmentCode: this.infoDetails.code,
               type: this.infoDetails.workOrderType,
+              workStatus: this.infoDetails.workStatus,
+              rating: this.infoDetails.rating,
               taskList: this.infoDetails.taskList.map((mapTaskList) => {
                 return {
                   taskId: mapTaskList.taskId,

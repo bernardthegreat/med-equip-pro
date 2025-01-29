@@ -1,3 +1,7 @@
+export function userLoginInfo(state) {
+  return state.userLoginInfo;
+}
+
 export function users(state) {
   return state.users;
 }

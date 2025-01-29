@@ -9,7 +9,7 @@
     >
       <div class="q-mt-sm">
         <EssentialLink
-          v-for="link in navLinks"
+          v-for="link in this.navigationLinks"
           :key="link.title"
           v-bind="link"
         />
@@ -36,9 +36,7 @@
           icon="fa fa-user"
           color="primary"
           text-color="secondary"
-          label="TEST USER"
-        >
-          <!-- :label="`${
+          :label="`${
             this.currentScreenProperty.lt.md
               ? ''
               : `${
@@ -46,7 +44,8 @@
                     ? ''
                     : this.userLoginInfo.firstName
                 }`
-          }`" -->
+          }`"
+        >
           <div
             class="bg-secondary row no-wrap items-center justify-center q-pa-md"
           >
@@ -68,12 +67,8 @@
               </q-avatar>
 
               <div class="text-caption q-mt-sm text-uppercase">
-                TEST USER
-                <!-- {{ this.userLoginInfo.lastName }},
-                {{ this.userLoginInfo.firstName }} -->
-              </div>
-              <div class="text-caption q-mb-xs text-uppercase">
-                <!-- REFERENCE NO.: {{ this.userLoginInfo.code }} -->
+                {{ this.userLoginInfo.lastName }},
+                {{ this.userLoginInfo.firstName }}
               </div>
               <q-btn-group>
                 <q-btn
@@ -118,6 +113,7 @@ export default defineComponent({
   data() {
     return {
       drawer: false,
+      navigationLinks: [],
       bools: {
         loadingPage: false,
         leftDrawer: false,
@@ -125,10 +121,18 @@ export default defineComponent({
       },
     };
   },
+  created() {
+    this.checkAccessNavigation();
+  },
   methods: {
     // toggleLeftDrawer() {
     //   this.leftDrawer = !this.leftDrawer;
     // },
+    checkAccessNavigation() {
+      this.navigationLinks = this.navLinks.filter((filterNavLinks) =>
+        filterNavLinks.roles.includes(this.userLoginInfo.role.toLowerCase())
+      );
+    },
     checkIfActiveNav(route) {
       if (this.$route.path === route) {
         return true;
@@ -185,7 +189,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .q-page {
   background: #fafafa !important;
 }

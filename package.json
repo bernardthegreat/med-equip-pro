@@ -10,7 +10,8 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.12",
+    "@quasar/cli": "^2.4.1",
+    "@quasar/extras": "^1.16.16",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "html-to-pdfmake": "^2.4.8",
@@ -18,18 +19,18 @@
     "jspdf": "^2.5.1",
     "jwt-decode": "^3.1.2",
     "pdfmake": "^0.2.6",
-    "quasar": "2.16.9",
+    "quasar": "2.17.7",
     "v-idle-3": "^0.3.13",
     "vue": "3",
     "vue-router": "^4.0.0",
     "vue3-apexcharts": "^1.4.1",
-    "vuex": "^4.0.1",
     "vuedraggable": "^4.1.0",
+    "vuex": "^4.0.1",
     "xlsx": "0.17.5"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
-    "@quasar/app-webpack": "3.13.4",
+    "@quasar/app-webpack": "3.15.1",
     "@quasar/quasar-app-extension-qpdfviewer": "^2.0.0-alpha.6",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",

@@ -21,3 +21,15 @@ export function workOrdersActiveOptions(state) {
 export function workOrdersActiveHashMap(state) {
   return state.workOrdersActiveHashMap;
 }
+
+export function workStatus(state) {
+  return state.workStatus;
+}
+
+export function workStatusHashMap(state) {
+  return state.workStatusHashMap;
+}
+
+export function ratingHashMap(state) {
+  return state.ratingHashMap;
+}

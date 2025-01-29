@@ -8,12 +8,31 @@
 </template>
 
 <script>
+const utils = require("src/util");
 import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
+import { Cookies } from "quasar";
 import NotifyMessage from "./components/Helpers/NotifyMessage.vue";
 export default defineComponent({
   name: "App",
   components: { NotifyMessage },
+  watch: {
+    // IMPORTANT: Do not make this watcher "immediate".
+    "$router.currentRoute.value.name": {
+      async handler(val) {
+        if (!this.logoffUser) {
+          this.initializeRouting(val);
+          // await this.watchLocation();
+        }
+      },
+    },
+
+    logoffUser(val) {
+      if (val) {
+        this.removeCookies();
+      }
+    },
+  },
   computed: {
     ...mapGetters({
       currentScreenProperty: "helpers/currentScreenProperty",
@@ -22,21 +41,67 @@ export default defineComponent({
       equipments: "equipments/equipments",
       notification: "helpers/notification",
       logoffUser: "helpers/logoffUser",
+      userLoginInfo: "users/userLoginInfo",
     }),
   },
-  created() {
-    this.initializeStore();
+  mounted() {
+    this.initializeRouting(this.$router.currentRoute.value.name);
   },
   methods: {
+    async removeCookies() {
+      Cookies.remove("user-access-token");
+      const notifInitPayload = {
+        displayNotify: true,
+        message: "You have been logged out!",
+        type: "negative",
+      };
+      await this.$store.dispatch("helpers/setNotification", notifInitPayload);
+      // this.bools.loginLoading = false;
+      setTimeout(async () => {
+        const notifInitPayload = {
+          displayNotify: false,
+          message: "",
+          type: "",
+        };
+        await this.$store.dispatch("helpers/setNotification", notifInitPayload);
+      }, 1500);
+      this.$router.push("/");
+    },
+    async initializeRouting(val) {
+      const cookieStatus = await this.checkCookie();
+      if (val === "Auth" || val === undefined) {
+        if (cookieStatus) {
+          this.$router.push("/dashboard");
+        } else {
+          this.$router.push("/");
+          return;
+        }
+      }
+      await this.redirectUser();
+      await this.initializeStore();
+    },
     async initializeStore() {
       await this.$store.dispatch("departments/getDepartments");
       await this.$store.dispatch("suppliers/getSuppliers");
       await this.$store.dispatch("equipments/getEquipments");
       // await this.$store.dispatch("helpers/setAppLoading", true);
-      // await this.$store.dispatch("config/getProcessors");
-      // await this.$store.dispatch("config/getBillers");
-      // await this.$store.dispatch("config/getApplications");
       // await this.$store.dispatch("helpers/setAppLoading", false);
+    },
+
+    async redirectUser() {
+      if (utils.objEmpty(this.userLoginInfo)) {
+        this.$router.push("/");
+        return;
+      }
+    },
+
+    async checkCookie() {
+      if (Cookies.has("user-access-token")) {
+        await this.$store.dispatch("users/setUserCookies");
+        return true;
+      }
+
+      return false;
     },
   },
 });

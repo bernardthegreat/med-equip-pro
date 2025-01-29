@@ -55,7 +55,7 @@ module.exports = configure(function (ctx) {
         PROJECT_SHORT_NAME: "Med-Equip-Pro",
         PROJECT_VERSION: "v0.1",
         HTTP_REQ_TIMEOUT: 1200000,
-        NGROKTESTING: true,
+        NGROKTESTING: false,
       },
       // transpile: false,
       // publicPath: '/',

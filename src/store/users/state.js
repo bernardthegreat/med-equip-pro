@@ -1,6 +1,7 @@
 export default function () {
   return {
     // Model of the data
+    userLoginInfo: {},
     users: [],
     usersHashMap: {},
     usersOptions: [],

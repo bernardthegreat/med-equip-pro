@@ -10,7 +10,9 @@ export async function getSuppliers(context, query = {}) {
       url: `${context.rootState.helpers.apiHost}/suppliers${queryStr}`,
       method: "get",
       detailed: true,
-      headers: {},
+      headers: {
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+      },
       handler: async (data) => {
         if (data.length > 0) {
           const optionData = utils.buildOptionsArray(data, "name", "code");
@@ -48,7 +50,7 @@ export async function postSupplier(context, payload) {
       url: `${context.rootState.helpers.apiHost}/suppliers`,
       method: "post",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,
@@ -65,7 +67,7 @@ export async function putSupplier(context, payload) {
       url: `${context.rootState.helpers.apiHost}/suppliers/${payload.id}`,
       method: "put",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,

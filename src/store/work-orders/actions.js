@@ -10,7 +10,9 @@ export async function getWorkOrders(context, query = {}) {
       url: `${context.rootState.helpers.apiHost}/work-orders${queryStr}`,
       method: "get",
       detailed: true,
-      headers: {},
+      headers: {
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+      },
       handler: async (data) => {
         if (data.length > 0) {
           const optionData = utils.buildOptionsArray(data, "name", "code");
@@ -48,10 +50,12 @@ export async function getWorkOrderDetails(context, query = {}) {
   return await context.dispatch(
     "helpers/request",
     {
-      url: `${context.rootState.helpers.apiHost}/work-orders/details/${query.workOrderCode}/${query.equipmentCode}`,
+      url: `${context.rootState.helpers.apiHost}/work-orders/details/${query.workOrderCode}/${query.equipmentCode}${queryStr}`,
       method: "get",
       detailed: true,
-      headers: {},
+      headers: {
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+      },
       handler: async (data) => {
         // Response data can be modified here before setting it to the store
       },
@@ -84,7 +88,7 @@ export async function putWorkOrder(context, payload) {
       url: `${context.rootState.helpers.apiHost}/work-orders/${payload.workOrderCode}`,
       method: "put",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,

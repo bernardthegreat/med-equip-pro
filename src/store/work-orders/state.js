@@ -6,6 +6,43 @@ export default function () {
     workOrdersOptions: [],
     workOrdersActiveOptions: [],
     workOrdersActiveHashMap: {},
+
+    workStatus: [
+      {
+        label: "DONE",
+        value: "DONE",
+      },
+      {
+        label: "NOT FOUND",
+        value: "NOT FOUND",
+      },
+      {
+        label: "IN USE / RESCHEDULE",
+        value: "IN USE / RESCHEDULE",
+      },
+      {
+        label: "FOR REPAIR",
+        value: "FOR REPAIR",
+      },
+    ],
+    workStatusHashMap: {
+      DONE: {
+        label: "DONE",
+        value: "DONE",
+      },
+      ["NOT FOUND"]: {
+        label: "NOT FOUND",
+        value: "NOT FOUND",
+      },
+      ["IN USE / RESCHEDULE"]: {
+        label: "IN USE / RESCHEDULE",
+        value: "IN USE / RESCHEDULE",
+      },
+      ["FOR REPAIR"]: {
+        label: "FOR REPAIR",
+        value: "FOR REPAIR",
+      },
+    },
     workOrdersColumns: [
       {
         name: "serialNumber",
@@ -71,5 +108,28 @@ export default function () {
         sortable: true,
       },
     ],
+
+    ratingHashMap: {
+      5: {
+        label: "EXCELLENT",
+        value: 5,
+      },
+      4: {
+        label: "VERY GOOD",
+        value: 4,
+      },
+      3: {
+        label: "GOOD",
+        value: 3,
+      },
+      2: {
+        label: "FAIR",
+        value: 2,
+      },
+      1: {
+        label: "POOR",
+        value: 1,
+      },
+    },
   };
 }

@@ -10,7 +10,9 @@ export async function getDepartments(context, query = {}) {
       url: `${context.rootState.helpers.apiHost}/departments${queryStr}`,
       method: "get",
       detailed: true,
-      headers: {},
+      headers: {
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+      },
       handler: async (data) => {
         if (data.length > 0) {
           const optionData = utils.buildOptionsArray(data, "name", "code");
@@ -46,7 +48,7 @@ export async function postDepartment(context, payload) {
       url: `${context.rootState.helpers.apiHost}/departments`,
       method: "post",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,
@@ -63,7 +65,7 @@ export async function putDepartment(context, payload) {
       url: `${context.rootState.helpers.apiHost}/departments/${payload.id}`,
       method: "put",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,

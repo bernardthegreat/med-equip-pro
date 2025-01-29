@@ -45,7 +45,7 @@ export default function () {
         name: "dashboard",
         title: "Dashboard",
         icon: "fa fa-screwdriver-wrench",
-        roles: ["user", "admin"],
+        roles: ["standard user", "admin"],
       },
       // {
       //   link: "/equipments",

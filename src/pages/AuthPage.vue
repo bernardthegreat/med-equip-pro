@@ -2,7 +2,7 @@
   <q-page class="row items-center justify-center full-width q-pa-md">
     <div class="col-xl-3 col-lg-3 col-md-auto col-sm-auto col-xs-auto">
       <q-card class="login-card">
-        <q-form ref="studentForm" @submit="submitForm">
+        <q-form ref="authForm" @submit="submitForm">
           <q-card-section class="header-bg">
             <div class="column items-center q-col-gutter-md justify-center">
               <div
@@ -61,7 +61,7 @@
               color="light-blue"
               text-color="grey-1"
               class="full-width q-pa-md"
-              :to="'/dashboard'"
+              type="submit"
             ></q-btn>
 
             <!--
@@ -123,7 +123,7 @@ export default defineComponent({
       this.loginInfo.password = "";
     },
     submitForm() {
-      this.$refs.studentForm.validate().then(async (valid) => {
+      this.$refs.authForm.validate().then(async (valid) => {
         if (!valid) {
           return false;
         }
@@ -135,62 +135,54 @@ export default defineComponent({
       this.loadingMessage = "AUTHENTICATING";
       this.bools.loginLoading = true;
 
-      const accessRights = await this.initAccessRights();
-      if (!accessRights) {
-        this.bools.loginLoading = false;
-        this.setInit();
-        return;
-      }
+      // const accessRights = await this.initAccessRights();
+      // if (!accessRights) {
+      //   this.bools.loginLoading = false;
+      //   this.setInit();
+      //   return;
+      // }
 
       const payload = {
         username: this.loginInfo.username,
         password: this.loginInfo.password,
-        // md5(this.loginInfo.password),
-        type: "manual",
       };
       const auth = await this.$store.dispatch("users/authenticate", payload);
-
-      if (auth.error !== undefined) {
-        const notifInitPayload = {
-          displayNotify: true,
-          message: auth.error,
-          type: "negative",
-        };
-        await this.$store.dispatch("helpers/setNotification", notifInitPayload);
-        this.bools.loginLoading = false;
-        this.setInit();
-
-        setTimeout(async () => {
+      if (auth !== undefined) {
+        if (!auth) {
+          this.bools.loginLoading = false;
           this.setInit();
-          const notifInitPayload = {
-            displayNotify: false,
-            message: "",
-            type: "",
-          };
-          await this.$store.dispatch(
-            "helpers/setNotification",
-            notifInitPayload
-          );
-        }, 2000);
-        return false;
-      }
 
+          setTimeout(async () => {
+            this.setInit();
+            const notifInitPayload = {
+              displayNotify: false,
+              message: "",
+              type: "",
+            };
+            await this.$store.dispatch(
+              "helpers/setNotification",
+              notifInitPayload
+            );
+          }, 2000);
+          return false;
+        }
+      }
       this.$refs.username.focus();
 
       let successNotifPayload = {
         displayNotify: true,
-        message: `Welcome ${this.userLoginInfo.name}`,
+        message: `Welcome ${this.userLoginInfo.lastName}, ${this.userLoginInfo.firstName}`,
         type: "positive",
       };
       await this.$store.dispatch(
         "helpers/setNotification",
         successNotifPayload
       );
-      this.bools.loginLoading = false;
       this.setInit();
       this.$router.push("/dashboard");
 
       setTimeout(async () => {
+        this.bools.loginLoading = false;
         this.setInit();
         const notifInitPayload = {
           displayNotify: false,

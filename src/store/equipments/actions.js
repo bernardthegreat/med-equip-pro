@@ -10,7 +10,9 @@ export async function getEquipments(context, query = {}) {
       url: `${context.rootState.helpers.apiHost}/equipments${queryStr}`,
       method: "get",
       detailed: true,
-      headers: {},
+      headers: {
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+      },
       handler: async (data) => {
         if (data.length > 0) {
           const optionData = utils.buildOptionsArray(data, "name", "code");
@@ -35,7 +37,9 @@ export async function getEquipmentsDetails(context, query = {}) {
       url: `${context.rootState.helpers.apiHost}/equipments/details/${query.id}`,
       method: "get",
       detailed: true,
-      headers: {},
+      headers: {
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+      },
       handler: async (data) => {
         if (data.length > 0) {
           utils.buildOptionsArray(data, "code", "code");
@@ -58,7 +62,7 @@ export async function postEquipment(context, payload) {
       url: `${context.rootState.helpers.apiHost}/equipments`,
       method: "post",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,
@@ -75,7 +79,7 @@ export async function putEquipment(context, payload) {
       url: `${context.rootState.helpers.apiHost}/equipments/${payload.id}`,
       method: "put",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,
@@ -92,7 +96,7 @@ export async function putEquipmentDetails(context, payload) {
       url: `${context.rootState.helpers.apiHost}/equipments/details/${payload.id}`,
       method: "put",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,
@@ -109,7 +113,7 @@ export async function repairEquipment(context, payload) {
       url: `${context.rootState.helpers.apiHost}/work-orders/repair`,
       method: "post",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,
