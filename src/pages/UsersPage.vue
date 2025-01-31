@@ -4,7 +4,7 @@
       <table-details
         class="full-height flex-grow-1"
         :columns="this.usersColumns"
-        :rows="this.users"
+        :rows="this.currentUsers"
         :rowKey="'name'"
         :loading="this.bools.loading"
         :title="'USERS'"
@@ -221,6 +221,7 @@ export default defineComponent({
       },
       dialogAction: "add",
       infoDetails: {},
+      currentUsers: [],
     };
   },
   computed: {
@@ -229,6 +230,7 @@ export default defineComponent({
       users: "users/users",
       usersRoleOptions: "users/usersRoleOptions",
       usersRoleHashMap: "users/usersRoleHashMap",
+      userLoginInfo: "users/userLoginInfo",
     }),
   },
   mounted() {
@@ -246,6 +248,10 @@ export default defineComponent({
     async initStore() {
       this.bools.loading = true;
       await this.$store.dispatch("users/getUsers");
+      this.currentUsers = this.users.filter(
+        (filterCurrentUsers) =>
+          filterCurrentUsers.username !== this.userLoginInfo.username
+      );
       await utils.delay(1500);
       this.bools.loading = false;
     },
