@@ -46,9 +46,9 @@ module.exports = configure(function (ctx) {
       vueRouterMode: "hash", // available values: 'hash', 'history'
       env: {
         // API_HOST: "https://jsonplaceholder.typicode.com",
-        API_HOST: "https://48ae-202-57-35-84.ngrok-free.app",
-        // API_HOST: "http://localhost:8888",
-        NGROK_HOST: "https://3325-202-57-35-84.ngrok-free.app",
+        // API_HOST: "https://48ae-202-57-35-84.ngrok-free.app",
+        API_HOST: "http://localhost:8888",
+        NGROK_HOST: "https://48ae-202-57-35-84.ngrok-free.app",
         // DEV_HOST: "https://api.uerm.edu.ph/dragonpay", // AT HOME
         // DEV_HOST: " https://b84c-202-57-35-84.ngrok-free.app/dragonpay", //NGROK
         DEV_HOST: "http://localhost:8888",
