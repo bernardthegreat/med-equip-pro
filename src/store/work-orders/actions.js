@@ -92,7 +92,7 @@ export async function postWorkOrder(context, payload) {
       url: `${context.rootState.helpers.apiHost}/work-orders`,
       method: "post",
       headers: {
-        // Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
+        Authorization: `bearer ${context.rootState.users.userLoginInfo.userToken}`,
       },
       detailed: true,
       data: payload,
