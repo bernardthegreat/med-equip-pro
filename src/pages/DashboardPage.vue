@@ -1129,7 +1129,6 @@ export default defineComponent({
       } else {
         this.dialogAction = "add";
       }
-
       const taskList = await this.$store.dispatch(
         "equipments/getEquipmentsDetails",
         {

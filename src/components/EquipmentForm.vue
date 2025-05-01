@@ -601,6 +601,7 @@ export default defineComponent({
           })
           .onOk(async () => {
             await this.$emit("setLoading", true);
+            let status = true;
             if (this.dialogAction === "edit") {
               const clonedPayload = JSON.parse(
                 JSON.stringify(this.infoDetails)
@@ -620,12 +621,20 @@ export default defineComponent({
                 warrantyPeriod: clonedPayload.warrantyPeriod,
               };
 
-              await this.$store.dispatch("equipments/putEquipment", payload);
+              status = await this.$store.dispatch(
+                "equipments/putEquipment",
+                payload
+              );
             } else {
-              await this.$store.dispatch(
+              status = await this.$store.dispatch(
                 "equipments/postEquipment",
                 this.infoDetails
               );
+            }
+
+            if (!status) {
+              await this.$emit("setLoading", false);
+              return;
             }
 
             let notifPayload = {
